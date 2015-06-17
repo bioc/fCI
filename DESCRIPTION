@@ -1,0 +1,19 @@
+Package: fCI
+Type: Package
+Title: f-divergence Cutoff Index
+Version: 0.99.10
+Date: 2015-02-04
+Author: Shaojun Tang
+Maintainer: Shaojun Tang <tangshao2008@gmail.com>
+Description: (f-divergence Cutoff Index), is to find DEGs in the
+        transcriptomic & proteomic data, and identify DEGs by computing
+        the difference between the distribution of fold-changes for the
+        control-control and remaining (non-differential) case-control
+        gene expression ratio data. fCI provides several advantages
+        compared to existing methods.
+License: GPL (>= 2)
+Depends: R (>= 3.1),FNN, psych, gtools, zoo, rgl, grid, VennDiagram
+Suggests: knitr, rmarkdown, BiocStyle
+VignetteBuilder: knitr
+NeedsCompilation: no
+biocViews: Proteomics

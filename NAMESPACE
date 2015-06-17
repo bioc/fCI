@@ -1,0 +1,21 @@
+exportPattern("^[[:alpha:]]+")
+exportMethods(
+    "call.npci",
+    "compute",
+    "figures",
+    "initialize",
+    "normalization",
+    "populate",
+    "summarize",
+    "venndiagram" 
+)
+exportClasses(
+    "NPCI" 
+)
+import("psych")
+import("FNN")
+import("gtools")
+import("zoo")
+import("VennDiagram")
+import("grid")
+import("rgl")
