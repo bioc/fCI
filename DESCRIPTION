@@ -1,7 +1,7 @@
 Package: fCI
 Type: Package
 Title: f-divergence Cutoff Index
-Version: 1.0.0
+Version: 1.1.0
 Date: 2015-02-04
 Author: Shaojun Tang
 Maintainer: Shaojun Tang <tangshao2008@gmail.com>
