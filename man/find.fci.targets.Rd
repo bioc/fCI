@@ -30,6 +30,10 @@ TBD
 
 \seealso{TBD}
 \examples{
-print("See README")
+ fci=new("NPCI")
+ fci.data=data.frame(matrix(sample(3:100, 1043*6, replace=TRUE), 1043,6))
+ targets=find.fci.targets(fci, c(1,2,3), c(4,5,6), fci.data)
+ head(show.targets(targets))
+  
 }
 \keyword{ ~kwd1 }

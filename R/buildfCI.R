@@ -33,8 +33,8 @@ setMethod("initialize", "NPCI", function(.Object){
   }
   if(length(.Object@sample.data.file)==0 
 	& dim(.Object@sample.data.normalized)[1]==0){
-    print("You didn't provide either the input file name or set the sample data 
-		from the object!")
+    #print("You didn't provide either the input file name or set the sample data 
+		#from the object!")
   }
   
   .Object@method.option=2
@@ -58,7 +58,23 @@ setMethod("normalization", "NPCI",
             sample.data.normalized=trim.size.normalization(sample.data) 
             .Object@sample.data.normalized=sample.data.normalized
             return(.Object)
+          })
+
+
+setGeneric("setfCI",
+           function(.Object, wt.index, df.index, fold.cutoff.list, center.distribution)
+             standardGeneric("setfCI"))  
+setMethod("setfCI", "NPCI", 
+          function(.Object, wt.index, df.index, fold.cutoff.list, center.distribution){
+            .Object@wt.index=wt.index
+            .Object@df.index=df.index
+            .Object@fold.cutoff.list=list(fold.cutoff.list)
+            .Object@center.by.gaussian.kernel=center.distribution
+            return(.Object)
           })				
+
+
+
 
 
 total.library.size.normalization<-function(sample.data){

@@ -53,35 +53,44 @@ divergence.multivariate.distributions<-function(null.data, diff.data, choice=2){
 }	
 
 
-fCI.call.by.index<-function(wt.indexes, df.indexes, data.file, 
-	use.normalization=FALSE, npci=NULL, short.report=TRUE){
 
+fCI.call.by.index<-function(wt.indexes, df.indexes, data.file, 
+                            use.normalization=FALSE, npci=NULL, short.report=TRUE){
   
   need.initialize=FALSE
   if(is.null(npci)){
     npci=new("NPCI")
-    need.initialize=TRUE
+    initialize("NPCI")
   }
   
   if(is.matrix(data.file) | is.data.frame(data.file)){
     npci@sample.data.normalized=data.file
   }else{
-    need.initialize=TRUE
-    npci@sample.data.file=data.file
-  }
-
-  if(need.initialize==TRUE){
-    npci=initialize(npci)
+    npci@sample.data.file=data.file  
+    sample.data.comb=read.csv(file=data.file, sep="\t", 
+                         stringsAsFactors=FALSE) 
+    none.zero.index=1:dim(sample.data.comb)[1]		
+    none.zero.index=which(lapply(1:dim(sample.data.comb)[1], FUN=function(i){ 
+      values=sample.data.comb[i,]; 
+      any(is.na(values))==FALSE & min(values)>0 & max(values)<Inf })==TRUE)  
+    sample.data.comb=sample.data.comb[none.zero.index,]
+    npci@sample.data.normalized=sample.data.comb
+    
   }  
   
+  #print(npci@diff.gene.ids)
+  
+  npci@ctr.indexes=wt.indexes
+  npci@trt.indexes=df.indexes
+  
   wt.index.more=combinations(length(wt.indexes),2, 
-	v=wt.indexes, repeats.allowed=FALSE)
+                             v=wt.indexes, repeats.allowed=FALSE)
   wt.index.more=(lapply(1:dim(wt.index.more)[1], function(x) 
-	as.numeric(wt.index.more[x,])))# list(a=wt.index,b=df.index))
+    as.numeric(wt.index.more[x,])))# list(a=wt.index,b=df.index))
   df.index.more=do.call(expand.grid, 
-	list(a=wt.indexes, b=df.indexes)) 
+                        list(a=wt.indexes, b=df.indexes)) 
   df.index.more=(lapply(1:dim(df.index.more)[1], function(x) 
-	as.numeric(df.index.more[x,])))
+    as.numeric(df.index.more[x,])))
   
   pairwise.up.down=list()
   pairwise.index=list()
@@ -91,6 +100,8 @@ fCI.call.by.index<-function(wt.indexes, df.indexes, data.file,
   
   if(use.normalization==TRUE){npci=normalization(npci)} ## just do once
   
+  #print(npci@diff.gene.ids)
+  
   for(i in 1:length(wt.index.more)){
     for(j in 1:length(df.index.more)){
       npci@wt.index=wt.index.more[[i]]
@@ -99,28 +110,42 @@ fCI.call.by.index<-function(wt.indexes, df.indexes, data.file,
       npci=populate(npci)
       npci=compute(npci)
       npci=summarize(npci)
-      cat("Control IDs : [", npci@wt.index, "] & Case IDs : [", 
-		npci@df.index , "];  Fold_Cutoff=", npci@result[2], "; #_DEGs=", 
-		npci@result[1], "; Divergence=",npci@result[3], "\n")
       
-      diff.gene.ids=npci@diff.gene.ids[[1]] 
-      pairwise.up.down[k][[1]]=rep(-1, length(diff.gene.ids))
-      pairwise.up.down[k][[1]][which(npci@expr.by.fold[1,diff.gene.ids]>1)]=1
-      pairwise.index[k][[1]]= diff.gene.ids
-      pairwise.wt.up.down.fold[k][[1]]=as.double(npci@null.data.start) 
-      pairwise.df.up.down.fold[k][[1]]=as.double(npci@diff.data.start)
-      k=k+1
+      if(npci@result[2]<max(npci@fold.cutoff.list[[1]])){
+        
+        cat("Control-Control Used : [", npci@wt.index, "] & Control-Case Used : [", 
+            npci@df.index , "];  Fold_Cutoff=", npci@result[2], "; Num_Of_DEGs=", 
+            npci@result[1], "; Divergence=",npci@result[3], "\n")
+        diff.gene.ids=npci@diff.gene.ids[[1]] 
+        diff.gene.names=rownames(npci@sample.data.normalized)[diff.gene.ids]
+        pairwise.up.down[k][[1]]=rep(-1, length(diff.gene.ids))
+        pairwise.up.down[k][[1]][which(npci@expr.by.fold[1,diff.gene.ids]>1)]=1
+        pairwise.index[k][[1]]= diff.gene.names
+        pairwise.wt.up.down.fold[k][[1]]=as.double(npci@null.data.start) 
+        pairwise.df.up.down.fold[k][[1]]=as.double(npci@diff.data.start)
+        k=k+1
+        
+      }else{
+        ## fci already incorporated gene ids with cutoff=10 into the results
+        npci@diff.gene.ids=list()
+      }
     }
   }
+  #print(npci@diff.gene.ids)
   
   result=list(pairwise.index, pairwise.wt.up.down.fold, 
-	pairwise.df.up.down.fold,  pairwise.up.down, npci)
+              pairwise.df.up.down.fold,  pairwise.up.down, npci)
   if(short.report==TRUE){
-    result=report.target.summary(pairwise.index)    
+    result=report.target.summary(pairwise.index) 
+    index.of.DEGs=unlist(lapply(as.vector(result[,1]), function(n){which(rownames(npci@sample.data.normalized)==n)}))
+    mean.a=round(apply(cbind(npci@sample.data.normalized[index.of.DEGs, wt.indexes]), 1, mean),3)
+    mean.b=round(apply(cbind(npci@sample.data.normalized[index.of.DEGs, df.indexes]), 1, mean),3)
+    log.fc=round(log(mean.b/mean.a,2),3)
+    result=data.frame(cbind(as.vector(result[,1]), mean.a, mean.b, log.fc, round(as.numeric(result[,2]),3)))
+    colnames(result)=c("DEG_Names", "Mean_Control", "Mean_Case", "Log2_FC", "fCI_Prob_Score")
+    if(dim(result)[1]>0){rownames(result)=1:dim(result)[1]}
   }
   return(result)
 }
-
-
 
 

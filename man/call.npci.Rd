@@ -12,7 +12,8 @@ call.npci(.Object)
   \item{.Object}{the fCI object}
 }
 \details{
-TBD
+  The S4 method will compute DEGs and save the results 
+  to the original s4 object .Object
 }
 \value{
   \item{NA }{No values will be returned}

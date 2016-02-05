@@ -23,10 +23,11 @@ setMethod("figures", "NPCI",
 				main="Density of Control(blue) and Treatment(Red)")
               lines(density(log(diff.data.start[,i],2), bw=0.5), col="red")								
             }
-            plot(unlist(distance.matrix), col="red", xlab="Cutoff Index", 
+            plot(unlist(distance.matrix), col="red", xlab="Cutoff Index", xaxt='n',
 				ylab="Divergence", 
 				main="Divergence between Control and Treatment Groups")
             lines(unlist(distance.matrix), col="red")
+			  	axis(1, at=1:length(unlist(distance.matrix)), labels=.Object@fold.cutoff.list[[1]])
             if(d>1){
               for(i in 2:d){
                 plot(log(null.data.start[,1],2), log(null.data.start[,i],2), 
@@ -64,6 +65,8 @@ setMethod("venndiagram", "NPCI",
             
             d=dim(.Object@diff.data.start)[2]
             num.pairs=length(.Object@pairwise.diff.gene.ids)
+            par(mfrow=c(2,2))
+            m=1
             for(i in 1:d){
               for(j in 1:round(num.pairs/4)){
                 diff.gene.ids=list()
@@ -72,7 +75,10 @@ setMethod("venndiagram", "NPCI",
                   diff.gene.ids[[n]]=.Object@pairwise.diff.gene.ids[[k]][i][[1]]
                   n=n+1
                 }	
-                npci.venn.diagram(diff.gene.ids,i,(4*j-3))
+                if(m<5){
+                  npci.venn.diagram(diff.gene.ids,i,(4*j-3))
+                }
+                m=m+1
               }
             }
         }

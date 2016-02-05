@@ -7,7 +7,7 @@ given expression matrix, find targets and their detailed expression changes
 }
 \usage{
 deg.up.down.info(wt.index.in.list, df.index.in.list, npci, 
-use.normalization = FALSE, target.ratio = 1)
+use.normalization = FALSE, target.ratio = 0.5)
 }
 \arguments{
   \item{wt.index.in.list}{  a list of numeric values representing

@@ -1,13 +1,13 @@
 
 deg.up.down.info<-function(wt.index.in.list, df.index.in.list, npci,
-	use.normalization=FALSE, target.ratio=1){
+                           use.normalization=FALSE, target.ratio=0.5){
   
   wt.index.more=do.call(expand.grid, wt.index.in.list) 	
   df.index.more=do.call(expand.grid, df.index.in.list) 
   wt.index.more=(lapply(1:dim(wt.index.more)[1], function(x) 
-	as.numeric(wt.index.more[x,])))
+    as.numeric(wt.index.more[x,])))
   df.index.more=(lapply(1:dim(df.index.more)[1], function(x) 
-	as.numeric(df.index.more[x,])))
+    as.numeric(df.index.more[x,])))
   
   pairwise.up.down=list()
   pairwise.index=list()
@@ -24,9 +24,11 @@ deg.up.down.info<-function(wt.index.in.list, df.index.in.list, npci,
       
       npci=populate(npci)
       npci=compute(npci)
-      cat("Control Indexes : ", npci@wt.index, " & Case Indexes : ", 
-		npci@df.index , " ==> ")
+      cat("Control-Control Used : ", npci@wt.index, " & Control-Case Used : ", 
+          npci@df.index , " ; Fold_Cutoff=", npci@result[2], "; Num_Of_DEGs=", 
+          npci@result[1], "; Divergence=",npci@result[3], "\n")
       npci=summarize(npci)
+      
       
       diff.gene.ids=npci@diff.gene.ids[[1]] 
       pairwise.up.down[k][[1]]=rep(-1, length(diff.gene.ids))
@@ -43,9 +45,8 @@ deg.up.down.info<-function(wt.index.in.list, df.index.in.list, npci,
   up.down.sum=rep(0, length(common.ids))
   
   return(list(common.ids, up.down.sum, pairwise.wt.up.down.fold, 
-	pairwise.df.up.down.fold, union.ids, pairwise.index, pairwise.up.down))
+              pairwise.df.up.down.fold, union.ids, pairwise.index, pairwise.up.down))
 }
-
 
 
 pairwise.change.occupancy<-function(common.ids, pairwise.index, 
