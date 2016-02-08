@@ -62,6 +62,7 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("fCI")
 ```
 ```{r, warning = FALSE, message = FALSE}
+ suppressPackageStartupMessages(library(fCI))
  library(fCI)
 ```
 
