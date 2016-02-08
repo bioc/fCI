@@ -1,4 +1,4 @@
----
+﻿---
 title: "fCI" 
 
 output: 
@@ -17,13 +17,13 @@ output:
 
 Shaojun Tang1, Martin Hemberg2, Ertugrul Cansizoglu3, Stephane Belin3, Kenneth Kosik4, Gabriel Kreiman2, Hanno Steen1#+, Judith Steen3#+
 
-1Departments of Pathology, Boston Children’s Hospital and Harvard Medical School, Boston, MA, USA, 02115
+1. Departments of Pathology, Boston Children’s Hospital and Harvard Medical School, Boston, MA, USA, 02115
 
-2Department of Ophthalmology, Boston Children’s Hospital, Boston, MA, USA, 02115
+2. Department of Ophthalmology, Boston Children’s Hospital, Boston, MA, USA, 02115
 
-3F.M. Kirby Neurobiology Center, Children's Hospital, and Department of Neurology, Harvard Medical School, 300 Longwood Avenue, Boston, MA, USA, 02115
+3. F.M. Kirby Neurobiology Center, Children's Hospital, and Department of Neurology, Harvard Medical School, 300 Longwood Avenue, Boston, MA, USA, 02115
 
-4Neuroscience Research Institute, University of California at Santa Barbara, Santa Barbara, CA, USA, 93106"
+4. Neuroscience Research Institute, University of California at Santa Barbara, Santa Barbara, CA, USA, 93106"
 
 ## 1.2 Abstract
 
