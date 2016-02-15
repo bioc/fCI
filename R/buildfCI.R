@@ -43,7 +43,7 @@ setMethod("initialize", "NPCI", function(.Object){
   .Object@use.ratio=TRUE
   .Object@use.fold.change=TRUE
   .Object@symmetric.fold=TRUE
-  .Object@center.by.gaussian.kernel=FALSE
+  .Object@center.by.gaussian.kernel=TRUE # change F->T 2/15/2016
   
   return(.Object)
 })				

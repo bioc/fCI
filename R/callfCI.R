@@ -210,12 +210,13 @@ setMethod("compute", "NPCI", #signature(obj="NPCI"),
         if(is.installed('FNN')==FALSE){
              install.packages('FNN')
         }
+        if(is.installed('psych')==FALSE){
+          install.packages('psych')
+        }
         if(is.installed('gtools')==FALSE){
           install.packages('gtools')
         }
-        if(is.installed('psych')==FALSE){
-            install.packages('psych')
-        }
+
         distance.matrix=get.npci.distance.matrix(.Object@sample.data.normalized,
             .Object@null.data.start, 
             .Object@diff.data.start, 

@@ -60,7 +60,7 @@ fCI.call.by.index<-function(wt.indexes, df.indexes, data.file,
   need.initialize=FALSE
   if(is.null(npci)){
     npci=new("NPCI")
-    initialize("NPCI")
+    npci=initialize(npci)
   }
   
   if(is.matrix(data.file) | is.data.frame(data.file)){
@@ -75,9 +75,12 @@ fCI.call.by.index<-function(wt.indexes, df.indexes, data.file,
       any(is.na(values))==FALSE & min(values)>0 & max(values)<Inf })==TRUE)  
     sample.data.comb=sample.data.comb[none.zero.index,]
     npci@sample.data.normalized=sample.data.comb
-    
+    npci=initialize(npci)  
+  
   }  
   
+  #npci@use.ratio=TRUE
+  #npci@use.fold.change=TRUE
   #print(npci@diff.gene.ids)
   
   npci@ctr.indexes=wt.indexes

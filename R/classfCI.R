@@ -1,3 +1,6 @@
+#' An S4 class to represent a bank account.
+#'
+#' @sample.data.file A character string
 setClass("NPCI",representation(
 	sample.data.file="character",
 	distance.matrix="matrix",
