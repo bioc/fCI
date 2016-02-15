@@ -7,15 +7,25 @@ exportMethods(
     "normalization",
     "populate",
     "summarize",
-    "venndiagram" 
+    "venndiagram",
+    "find.fci.targets"
 )
 exportClasses(
     "NPCI" 
 )
-import("psych")
-import("FNN")
+
 import("gtools")
+importFrom("psych", tr)
+import("FNN")
 import("zoo")
 import("VennDiagram")
 import("grid")
 import("rgl")
+
+
+
+importFrom("grDevices", "dev.off", "rainbow", "tiff")
+importFrom("graphics", "axis", "lines", "par", "plot")
+importFrom("stats", "density", "median", "quantile", "sd", "var")
+importFrom("utils", "install.packages", "installed.packages",
+             "read.csv")
