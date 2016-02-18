@@ -3,7 +3,6 @@ exportMethods(
     "call.npci",
     "compute",
     "figures",
-    "initialize",
     "normalization",
     "populate",
     "summarize",
