@@ -1,7 +1,7 @@
 Package: fCI
 Type: Package
 Title: f-divergence Cutoff Index for Differential Expression Analysis in Transcriptomics and Proteomics
-Version: 1.6.0
+Version: 1.7.0
 Date: 2016-02-03
 Author: Shaojun Tang
 Maintainer: Shaojun Tang <tangshao2008@gmail.com>
