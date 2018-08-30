@@ -58,8 +58,9 @@ samples with very few or no replicates.
 fCI should be installed as follows:
 
 ```{r eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("fCI")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("fCI")
 ```
 ```{r, warning = FALSE, message = FALSE}
  suppressPackageStartupMessages(library(fCI))
